@@ -1,0 +1,150 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:models="using:TestApp.Presentation.Models"
+			 xmlns:vm="using:TestApp.Presentation.ViewModels"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:DataType="vm:EditorViewModel"
+			 x:Class="TestApp.Presentation.Views.EditorView">
+
+	<UserControl.Styles>
+
+		<Style Selector="Button.action">
+			<Setter Property="Margin" Value="5"/>
+			<Setter Property="Padding" Value="5"/>
+			<Setter Property="FontSize" Value="14"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="Background" Value="#007bff"/>
+			<Setter Property="Width" Value="70"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+		</Style>
+
+		<Style Selector="TextBlock.label">
+			<Setter Property="FontWeight" Value="SemiBold"/>
+			<Setter Property="Margin" Value="0,0,0,5"/>
+			<Setter Property="Foreground" Value="White"/>
+		</Style>
+
+	</UserControl.Styles>
+
+	<UserControl.Resources>
+
+		<DataTemplate x:Key="Errors.List">
+			<Grid Grid.RowDefinitions="auto, *">
+				<TextBlock Grid.Row="0" Text="Validation" Foreground="DarkOrange" FontStyle="Italic" FontSize="14"/>
+
+				<ItemsControl Grid.Row="1" Margin="5,0,0,0" ItemsSource="{Binding}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding StringFormat='- {0}'}" Foreground="DarkOrange" Margin="0,0,0,0.25" FontSize="12" FontStyle="Italic"/>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</Grid>
+		</DataTemplate>
+
+	</UserControl.Resources>
+
+	<Grid Background="Transparent">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<ScrollViewer Grid.Row="0">
+			<StackPanel Spacing="15">
+
+				<StackPanel>
+					<TextBlock Text="Name"
+							   Classes="label"/>
+					<Grid Grid.RowDefinitions="*,auto">
+						<TextBox Text="{Binding CurrentSignal.Name}"
+								 Grid.Column="0"
+								 Watermark="Enter signal name..."
+								 FontSize="14"
+								 Padding="10"/>
+
+						<ContentControl Grid.Row="1" Margin="9,5,5,0" IsVisible="{Binding SignalValidation[Name].HasErrors}" Content="{Binding SignalValidation[Name].Errors}" ContentTemplate="{StaticResource Errors.List}"/>
+
+						<TextBlock HorizontalAlignment="Left" IsVisible="{Binding SignalValidation[Name].HasErrors}" Text="!" FontSize="25" FontWeight="Bold" VerticalAlignment="Center" Foreground="Red" Margin="2,0,10,0"/>
+					</Grid>
+
+				</StackPanel>
+
+				<StackPanel>
+					<TextBlock Text="Shape"
+							   Classes="label"/>
+					<Grid Grid.RowDefinitions="*,auto">
+						<ComboBox ItemsSource="{Binding Shapes}"
+								  SelectedItem="{Binding CurrentSignal.Shape}"
+								  HorizontalAlignment="Stretch"
+								  FontSize="14"
+								  Padding="10"/>
+						<ContentControl Grid.Row="1" Margin="5,5,5,0" IsVisible="{Binding SignalValidation[Shape].HasErrors}" Content="{Binding SignalValidation[Shape].Errors}" ContentTemplate="{StaticResource Errors.List}"/>
+
+						<TextBlock HorizontalAlignment="Left" IsVisible="{Binding SignalValidation[Shape].HasErrors}" Text="!" FontSize="25" FontWeight="Bold" VerticalAlignment="Center" Foreground="Red" Margin="2,0,10,0"/>
+					</Grid>
+				</StackPanel>
+
+				<StackPanel>
+					<TextBlock Text="Value"
+							   Classes="label"/>
+					<Grid Grid.RowDefinitions="*,auto">
+						<NumericUpDown Value="{Binding CurrentSignal.Value, FallbackValue=0}"	 
+								 Watermark="Enter value..."
+								 FontSize="14"
+								 Padding="10"/>
+						<ContentControl Grid.Row="1" Margin="5,5,5,0" IsVisible="{Binding SignalValidation[Value].HasErrors}" Content="{Binding SignalValidation[Value].Errors}" ContentTemplate="{StaticResource Errors.List}"/>
+
+						<TextBlock HorizontalAlignment="Left" IsVisible="{Binding SignalValidation[Value].HasErrors}" Text="!" FontSize="25" FontWeight="Bold" VerticalAlignment="Center" Foreground="Red" Margin="2,0,10,0"/>
+					</Grid>
+
+				</StackPanel>
+
+				<StackPanel>
+					<TextBlock Text="Data Type"
+							   Classes="label"/>
+					<Grid Grid.RowDefinitions="*,auto">
+						<ComboBox ItemsSource="{Binding DataTypes}"
+								  SelectedItem="{Binding CurrentSignal.DataType}"
+								  HorizontalAlignment="Stretch"
+								  FontSize="14"
+								  Padding="10"/>
+
+						<ContentControl Grid.Row="1" Margin="5,5,5,0" IsVisible="{Binding SignalValidation[DataType].HasErrors}" Content="{Binding SignalValidation[DataType].Errors}" ContentTemplate="{StaticResource Errors.List}"/>
+
+						<TextBlock HorizontalAlignment="Left" IsVisible="{Binding SignalValidation[DataType].HasErrors}" Text="!" FontSize="25" FontWeight="Bold" VerticalAlignment="Center" Foreground="Red" Margin="2,0,10,0"/>
+
+					</Grid>
+
+				</StackPanel>
+
+			</StackPanel>
+		</ScrollViewer>
+
+		<WrapPanel Grid.Row="2"
+				   HorizontalAlignment="Center">
+			<Button Content="New"
+					Command="{Binding NewCommand}"
+					Classes="action"/>
+
+			<Button Content="Add"
+					Command="{Binding AddCommand}"
+					Classes="action"/>
+
+			<Button Content="Populate"
+					Command="{Binding PopulateCommand}"
+					Classes="action"/>
+
+			<Button Content="Open"
+					Command="{Binding OpenCommand}"
+					Classes="action"/>
+
+			<Button Content="Save"
+					Command="{Binding SaveCommand}"
+					Classes="action"/>
+		</WrapPanel>
+	</Grid>
+
+</UserControl>

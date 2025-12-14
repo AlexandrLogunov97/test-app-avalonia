@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:dialogs="using:TestApp.Presentation.ViewModels.Dialogs"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:DataType="dialogs:SaveDialogViewModel"
+			 x:Class="TestApp.Presentation.Views.Dialogs.SaveDialogView">
+	<Border Background="#2D2D2D" CornerRadius="5" Padding="5">
+		<StackPanel>
+			<TextBlock Text="Save" HorizontalAlignment="Center" Margin="5,5,5,5"/>
+			<WrapPanel>
+				<Button Command="{Binding SelectCommand}"
+						CommandParameter="Sqlite"
+						Content="Sqlite"
+						Margin="5"/>
+				<Button Command="{Binding SelectCommand}"
+						CommandParameter="Json"
+						Content="Json"
+						Margin="5"/>
+				<Button Command="{Binding SelectCommand}"
+						CommandParameter="Xml"
+						Content="Xml"
+						Margin="5"/>
+			</WrapPanel>
+		</StackPanel>
+	</Border>
+</UserControl>
